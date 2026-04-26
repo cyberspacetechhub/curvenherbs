@@ -5,6 +5,7 @@ let allowedOrigins = [
     'https://www.curvenherbs.com',
     'https://api.curvenherbs.com',
     'https://curvenherbs.vercel.app',
+    'https://www.curvenherbs.vercel.app',
     'https://curvenherbs.onrender.com',
 ]
 

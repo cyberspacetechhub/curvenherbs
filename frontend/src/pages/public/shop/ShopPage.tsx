@@ -70,21 +70,25 @@ function ProductCard({ product }: { product: Product }) {
           {product.description}
         </p>
 
-        <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '0.75rem', borderTop: '1px solid #f3f4f6' }}>
-          <div>
-            <span style={{ fontWeight: 700, fontSize: '1.05rem', color: '#E91E63' }}>{formatNaira(price)}</span>
-            {product.discountedPrice && (
-              <span style={{ fontSize: '0.78rem', color: '#9ca3af', textDecoration: 'line-through', marginLeft: '0.4rem' }}>{formatNaira(product.price)}</span>
-            )}
+        <div style={{ marginTop: 'auto', paddingTop: '0.75rem', borderTop: '1px solid #f3f4f6' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+            <div>
+              <span style={{ fontWeight: 700, fontSize: '1rem', color: '#E91E63' }}>{formatNaira(price)}</span>
+              {product.discountedPrice && (
+                <span style={{ fontSize: '0.72rem', color: '#9ca3af', textDecoration: 'line-through', marginLeft: '0.375rem' }}>{formatNaira(product.price)}</span>
+              )}
+            </div>
           </div>
-          <div style={{ display: 'flex', gap: '0.4rem' }}>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
             <a href={getWhatsAppOrderLink(product.name)} target="_blank" rel="noreferrer"
-              style={{ width: 34, height: 34, background: '#22c55e', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <FaWhatsapp size={15} />
+              style={{ flex: 1, height: 36, background: '#22c55e', color: '#fff', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem', fontSize: '0.72rem', fontWeight: 600, textDecoration: 'none' }}>
+              <FaWhatsapp size={14} />
+              <span className="btn-label">WhatsApp</span>
             </a>
             <button onClick={() => addItem(product)} disabled={!product.isInStock}
-              className="btn-pink" style={{ padding: '0.4rem 0.8rem', fontSize: '0.72rem' }}>
-              <FiShoppingCart size={12} /> Add
+              style={{ flex: 1, height: 36, background: product.isInStock ? 'linear-gradient(135deg,#E91E63,#C2185B)' : '#e5e7eb', color: product.isInStock ? '#fff' : '#9ca3af', border: 'none', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem', fontSize: '0.72rem', fontWeight: 600, cursor: product.isInStock ? 'pointer' : 'not-allowed' }}>
+              <FiShoppingCart size={13} />
+              <span className="btn-label">Add to Cart</span>
             </button>
           </div>
         </div>
@@ -224,6 +228,8 @@ export default function ShopPage() {
         }
         @media (min-width: 640px)  { .products-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
         @media (min-width: 1024px) { .products-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; } }
+        .btn-label { display: none; }
+        @media (min-width: 768px) { .btn-label { display: inline; } }
       `}</style>
     </div>
   );

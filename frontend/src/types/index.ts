@@ -148,7 +148,7 @@ export interface OrderTracking {
 // ─── Review ──────────────────────────────────────────────────────────────────
 export interface Review {
   _id: string;
-  product: string;
+  product: string | { _id: string; name: string; slug: string };
   customerName: string;
   rating: number;
   comment?: string;

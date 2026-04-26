@@ -76,7 +76,11 @@ export default function AdminReviewsPage() {
                     <p style={{ fontSize: '0.875rem', color: '#4b5563', lineHeight: 1.65, marginBottom: '0.5rem' }}>"{review.comment}"</p>
                   )}
                   <p style={{ fontSize: '0.75rem', color: '#9ca3af' }}>
-                    Product ID: <span style={{ fontFamily: 'monospace', color: '#6b7280' }}>{review.product}</span>
+                    Product: <span style={{ fontFamily: 'monospace', color: '#6b7280' }}>
+                      {typeof review.product === 'object' && review.product !== null
+                        ? (review.product as { _id: string; name: string }).name
+                        : review.product}
+                    </span>
                   </p>
                 </div>
 

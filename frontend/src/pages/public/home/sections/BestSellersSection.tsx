@@ -73,17 +73,23 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           ))}
         </div>
 
-        <div style={{ marginTop: 'auto', paddingTop: '0.75rem', borderTop: '1px solid #f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
+        <div style={{ marginTop: 'auto', paddingTop: '0.75rem', borderTop: '1px solid #f3f4f6' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <span style={{ fontWeight: 700, fontSize: '1.1rem', color: '#E91E63' }}>{formatNaira(price)}</span>
             {product.discountedPrice && (
               <span style={{ fontSize: '0.8rem', color: '#9ca3af', textDecoration: 'line-through' }}>{formatNaira(product.price)}</span>
             )}
           </div>
-          <button onClick={() => addItem(product)} disabled={!product.isInStock}
-            className="btn-pink" style={{ padding: '0.45rem 0.875rem', fontSize: '0.75rem' }}>
-            <FiShoppingCart size={13} /> Add
-          </button>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <a href={getWhatsAppOrderLink(product.name)} target="_blank" rel="noreferrer"
+              style={{ flex: 1, height: 36, background: '#22c55e', color: '#fff', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem', fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none' }}>
+              <FaWhatsapp size={14} /> WhatsApp
+            </a>
+            <button onClick={() => addItem(product)} disabled={!product.isInStock}
+              style={{ flex: 1, height: 36, background: product.isInStock ? 'linear-gradient(135deg,#E91E63,#C2185B)' : '#e5e7eb', color: product.isInStock ? '#fff' : '#9ca3af', border: 'none', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem', fontSize: '0.75rem', fontWeight: 600, cursor: product.isInStock ? 'pointer' : 'not-allowed' }}>
+              <FiShoppingCart size={13} /> Add
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>
