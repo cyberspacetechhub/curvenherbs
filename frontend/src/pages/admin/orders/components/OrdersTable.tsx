@@ -1,7 +1,7 @@
 import { FiSearch, FiEye } from 'react-icons/fi';
 import { formatNaira, formatDate } from '@/lib/utils';
 import OrderStatusBadge from './OrderStatusBadge';
-import type { Order, OrderStatus } from '@/types';
+import type { Order } from '@/types';
 
 const STATUS_FILTERS: { label: string; value: string }[] = [
   { label: 'All', value: '' },

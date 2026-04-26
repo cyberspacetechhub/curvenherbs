@@ -13,6 +13,7 @@ const TrackOrderPage     = lazy(() => import('@/pages/public/track'));
 const OrderTrackingPage  = lazy(() => import('@/pages/public/order'));
 const AboutPage          = lazy(() => import('@/pages/public/about'));
 const ContactPage        = lazy(() => import('@/pages/public/contact'));
+const TestimonyPage      = lazy(() => import('@/pages/public/testimony'));
 const { LoginPage, RegisterPage } = {
   LoginPage:    lazy(() => import('@/pages/public/auth').then(m => ({ default: m.LoginPage }))),
   RegisterPage: lazy(() => import('@/pages/public/auth').then(m => ({ default: m.RegisterPage }))),
@@ -27,6 +28,7 @@ const AdminTestimoniesPage = lazy(() => import('@/pages/admin/testimonies'));
 const AdminNewsletterPage  = lazy(() => import('@/pages/admin/newsletter'));
 const AdminMessagesPage    = lazy(() => import('@/pages/admin/messages'));
 const AdminAdminsPage      = lazy(() => import('@/pages/admin/admins'));
+const AdminCouponsPage     = lazy(() => import('@/pages/admin/coupons'));
 
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-cream">
@@ -85,6 +87,7 @@ export default function App() {
           <Route path="/orders/:id/tracking"   element={<OrderTrackingPage />} />
           <Route path="/about"                 element={<AboutPage />} />
           <Route path="/contact"               element={<ContactPage />} />
+          <Route path="/testimony"             element={<TestimonyPage />} />
         </Route>
 
         {/* ── Auth (no layout) ── */}
@@ -101,6 +104,7 @@ export default function App() {
           <Route path="/admin/newsletter"      element={<AdminNewsletterPage />} />
           <Route path="/admin/messages"        element={<AdminMessagesPage />} />
           <Route path="/admin/admins"          element={<AdminAdminsPage />} />
+          <Route path="/admin/coupons"          element={<AdminCouponsPage />} />
         </Route>
       </Routes>
     </Suspense>

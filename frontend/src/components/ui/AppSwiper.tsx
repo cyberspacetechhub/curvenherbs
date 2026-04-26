@@ -3,7 +3,7 @@ import { Navigation, Pagination, Autoplay, EffectFade, FreeMode } from 'swiper/m
 import type { SwiperProps } from 'swiper/react';
 import type { ReactNode } from 'react';
 
-interface AppSwiperProps extends Omit<SwiperProps, 'children'> {
+interface AppSwiperProps extends Omit<SwiperProps, 'children' | 'fadeEffect'> {
   items: ReactNode[];
   showNavigation?: boolean;
   showPagination?: boolean;

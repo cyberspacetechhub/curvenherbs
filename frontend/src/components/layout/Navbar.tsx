@@ -7,10 +7,11 @@ import { useCartStore } from '@/store/cartStore';
 import { getWhatsAppOrderLink } from '@/lib/utils';
 
 const NAV_LINKS = [
-  { label: 'Home',    to: '/' },
-  { label: 'Shop',    to: '/shop' },
-  { label: 'About',   to: '/about' },
-  { label: 'Contact', to: '/contact' },
+  { label: 'Home',        to: '/' },
+  { label: 'Shop',        to: '/shop' },
+  { label: 'About',       to: '/about' },
+  { label: 'Share Story', to: '/testimony' },
+  { label: 'Contact',     to: '/contact' },
 ];
 
 export default function Navbar() {

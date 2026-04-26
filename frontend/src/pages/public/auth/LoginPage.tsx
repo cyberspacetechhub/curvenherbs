@@ -8,6 +8,7 @@ import { FiMail, FiLock } from 'react-icons/fi';
 import { useLogin } from '@/hooks/auth/useAuth';
 import { useAuthStore } from '@/store/authStore';
 import { loginSchema, type LoginFormData } from '@/lib/schemas';
+import SEO from '@/components/SEO';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ export default function LoginPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#F5F0E8', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '6rem 1.25rem 3rem' }}>
+      <SEO title="Sign In" url="/login" noIndex />
       <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
         style={{ width: '100%', maxWidth: 440 }}>
 

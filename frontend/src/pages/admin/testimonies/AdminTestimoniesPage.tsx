@@ -17,8 +17,8 @@ export default function AdminTestimoniesPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.875rem' }}>
         {[
           { label: 'Pending Approval', value: testimonies.length, color: '#f59e0b' },
-          { label: 'With Images', value: testimonies.filter(t => t.beforeImage || t.afterImage).length, color: '#8b5cf6' },
-          { label: 'With Rating', value: testimonies.filter(t => t.rating).length, color: '#E91E63' },
+          { label: 'With Images', value: testimonies.filter((t: Testimony) => t.beforeImage || t.afterImage).length, color: '#8b5cf6' },
+          { label: 'With Rating', value: testimonies.filter((t: Testimony) => t.rating).length, color: '#E91E63' },
         ].map(s => (
           <div key={s.label} style={{ background: '#fff', borderRadius: 12, padding: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
             <p style={{ fontSize: '0.72rem', color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.label}</p>

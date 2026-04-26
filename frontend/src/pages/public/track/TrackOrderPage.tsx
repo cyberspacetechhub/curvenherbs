@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaWhatsapp, FaLeaf, FaCheckCircle, FiPackage } from 'react-icons/fa';
+import { FaWhatsapp, FaLeaf, FaCheckCircle, FaBoxOpen } from 'react-icons/fa';
 import { FiSearch, FiArrowLeft } from 'react-icons/fi';
 import { useOrderTracking, useOrder, useMarkOrderReceived } from '@/hooks/orders/useOrders';
 import { formatNaira, formatDateTime, getWhatsAppOrderLink, getMainImage } from '@/lib/utils';
 import type { OrderStatus } from '@/types';
+import SEO from '@/components/SEO';
 
 const STATUS_CONFIG: Record<OrderStatus, { icon: React.ReactNode; color: string; bg: string; label: string }> = {
-  'Pending':           { icon: <FiPackage size={18} />,              color: '#92400e', bg: '#fef3c7', label: 'Order Placed' },
+  'Pending':           { icon: <FaBoxOpen size={18} />,              color: '#92400e', bg: '#fef3c7', label: 'Order Placed' },
   'Payment Received':  { icon: <FaCheckCircle size={18} />,          color: '#1e40af', bg: '#dbeafe', label: 'Payment Confirmed' },
   'Processing':        { icon: <FaLeaf size={18} />,                color: '#5b21b6', bg: '#ede9fe', label: 'Being Prepared' },
   'Shipped':           { icon: <FaLeaf size={18} />,                color: '#1e3a8a', bg: '#e0e7ff', label: 'Shipped' },
@@ -82,7 +83,7 @@ export default function TrackOrderPage() {
   if (id && !isLoading && !order) {
     return (
       <div style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', padding: '4rem 1rem' }}>
-        <FaPackage size={50} style={{ color: '#e5e7eb' }} />
+        <FaBoxOpen size={50} style={{ color: '#e5e7eb' }} />
         <p style={{ color: '#6b7280', fontSize: '1rem', textAlign: 'center' }}>Order not found.</p>
         <Link to="/orders/track" style={{ padding: '0.75rem 1.5rem', textDecoration: 'none', borderRadius: 10, background: '#2E7D32', color: '#fff', fontSize: '0.9rem', fontWeight: 600 }}>Track Another Order</Link>
       </div>
@@ -104,6 +105,12 @@ export default function TrackOrderPage() {
   // Otherwise, show the tracking form
   return (
     <div style={{ background: '#F5F0E8', paddingTop: '5rem', paddingBottom: '5rem', minHeight: '60vh' }}>
+      <SEO
+        title="Track Your Order"
+        description="Track your Curvenherbs order status in real time. Enter your order ID to see delivery progress."
+        url="/orders/track"
+        noIndex
+      />
       <div className="container-brand">
         {/* Back link */}
         <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', color: '#86efac', fontSize: '0.875rem', textDecoration: 'none', marginBottom: '1.5rem' }}>
@@ -252,7 +259,7 @@ interface OrderTrackingDisplayProps {
 
 function OrderTrackingDisplay({ order, tracking, isLoading, marking, marked, markReceived }: OrderTrackingDisplayProps) {
   const currentStatus = order?.status;
-  const cfg = currentStatus ? STATUS_CONFIG[currentStatus] : null;
+  const cfg = currentStatus ? STATUS_CONFIG[currentStatus as OrderStatus] : null;
   const isDeliverable = currentStatus === 'Shipped' || currentStatus === 'Out for Delivery';
   const isCancelled = currentStatus === 'Cancelled';
   const isDelivered = currentStatus === 'Delivered';
@@ -361,7 +368,7 @@ function OrderTrackingDisplay({ order, tracking, isLoading, marking, marked, mar
                   </h2>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     {[...tracking].reverse().map((entry) => {
-                      const sc = STATUS_CONFIG[entry.status] ?? { color: '#6b7280', bg: '#f3f4f6', icon: <FaLeaf size={14} /> };
+                      const sc = STATUS_CONFIG[entry.status as OrderStatus] ?? { color: '#6b7280', bg: '#f3f4f6', icon: <FaLeaf size={14} /> };
                       return (
                         <div key={entry._id} style={{ display: 'flex', gap: '0.875rem', alignItems: 'flex-start' }}>
                           <div style={{ width: 34, height: 34, borderRadius: '50%', background: sc.bg, color: sc.color, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -420,14 +427,14 @@ function OrderTrackingDisplay({ order, tracking, isLoading, marking, marked, mar
                   Order Summary
                 </h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem', marginBottom: '1.25rem' }}>
-                  {order.items.map((item, i) => {
+                  {order.items.map((item: { product: any; quantity: number; priceAtPurchase: number }, i: number) => {
                     const p = item.product;
                     const img = p?.images ? getMainImage(p.images) : '/placeholder-product.jpg';
                     return (
                       <div key={i} style={{ display: 'flex', gap: '0.875rem', alignItems: 'center' }}>
                         <div style={{ width: 52, height: 52, borderRadius: 10, overflow: 'hidden', background: '#EDE7D9', flexShrink: 0 }}>
                           <img src={img} alt={p?.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                            onError={e => { e.target.src = '/placeholder-product.jpg'; }} />
+                            onError={e => { (e.target as HTMLImageElement).src = '/placeholder-product.jpg'; }} />
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <p style={{ fontWeight: 600, fontSize: '0.875rem', color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p?.name ?? 'Product'}</p>

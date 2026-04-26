@@ -3,7 +3,9 @@ import { FaLeaf, FaWhatsapp, FaStar, FaHeart } from 'react-icons/fa';
 import { MdVerified, MdScience, MdLocalShipping } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { useTestimonies } from '@/hooks/testimonies/useTestimonies';
+import type { Testimony } from '@/types';
 import { getWhatsAppOrderLink } from '@/lib/utils';
+import SEO from '@/components/SEO';
 
 const STATS = [
   { value: '500+', label: 'Happy Customers' },
@@ -27,6 +29,12 @@ export default function AboutPage() {
 
   return (
     <div style={{ background: '#F5F0E8' }}>
+      <SEO
+        title="About Us — Our Story & Mission"
+        description="Learn about Curvenherbs — a Nigerian herbal brand founded in Abakaliki, Ebonyi State. 100% natural, in-house formulated products for women. No side effects, proven results."
+        url="/about"
+        keywords="about Curvenherbs, Nigerian herbal brand, natural body enhancement brand, Abakaliki herbal products, women herbal supplements Nigeria"
+      />
 
       {/* ── Hero ── */}
       <div style={{ background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 60%, #388E3C 100%)', paddingTop: '8rem', paddingBottom: '5rem', position: 'relative', overflow: 'hidden' }}>
@@ -138,7 +146,7 @@ export default function AboutPage() {
             </h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
-            {featured.map((t, i) => (
+            {featured.map((t: Testimony, i: number) => (
               <motion.div key={t._id} initial="hidden" whileInView="show" viewport={{ once: true }} variants={fade} transition={{ delay: i * 0.1 }}
                 style={{ background: '#fff', borderRadius: 20, padding: '1.75rem', boxShadow: '0 2px 16px rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {t.rating && (

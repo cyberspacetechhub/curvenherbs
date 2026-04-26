@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaLeaf } from 'react-icons/fa';
 import {
   MdDashboard, MdInventory, MdShoppingBag, MdStar,
-  MdCameraAlt, MdEmail, MdMessage, MdAdminPanelSettings, MdChevronLeft, MdChevronRight,
+  MdCameraAlt, MdEmail, MdMessage, MdAdminPanelSettings, MdLocalOffer, MdChevronLeft, MdChevronRight,
 } from 'react-icons/md';
 
 const NAV = [
@@ -13,6 +12,7 @@ const NAV = [
   { label: 'Orders',      to: '/admin/orders',        icon: <MdShoppingBag size={20} /> },
   { label: 'Reviews',     to: '/admin/reviews',       icon: <MdStar size={20} /> },
   { label: 'Testimonies', to: '/admin/testimonies',   icon: <MdCameraAlt size={20} /> },
+  { label: 'Coupons',     to: '/admin/coupons',       icon: <MdLocalOffer size={20} /> },
   { label: 'Newsletter',  to: '/admin/newsletter',    icon: <MdEmail size={20} /> },
   { label: 'Messages',    to: '/admin/messages',      icon: <MdMessage size={20} /> },
   { label: 'Admins',      to: '/admin/admins',        icon: <MdAdminPanelSettings size={20} /> },

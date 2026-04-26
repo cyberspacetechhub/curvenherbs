@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { FaWhatsapp, FaLock, FaLeaf, FaMoneyBillWave } from 'react-icons/fa';
-import { FiTrash2, FiPlus, FiMinus, FiTag, FiChevronDown, FiMessageCircle, FiCreditCard, FiInfo } from 'react-icons/fi';
+import { FiTrash2, FiPlus, FiMinus, FiTag, FiCreditCard, FiInfo } from 'react-icons/fi';
 import { MdPayment, MdAccountBalance } from 'react-icons/md';
 
 // ── Delivery fees by Nigerian state name (lowercase) ──────────────────────────
@@ -70,8 +70,12 @@ import { useCountries, useStates, useCities } from '@/hooks/locations/useLocatio
 import { useValidateCoupon, usePlaceOrder } from '@/hooks/orders/useOrders';
 import { checkoutSchema, type CheckoutFormData } from '@/lib/schemas';
 import { formatNaira, getMainImage, getWhatsAppOrderLink } from '@/lib/utils';
+import type { PaymentMethod } from '@/types';
+import SEO from '@/components/SEO';
 
-const BASE_PAYMENT_METHODS = [
+export type PaymentMethodExtended = PaymentMethod | 'Paystack';
+
+const BASE_PAYMENT_METHODS: { value: PaymentMethodExtended; label: string; icon: React.ReactNode; desc: string; ebonyiOnly?: boolean; disabled?: boolean }[] = [
   { value: 'Bank Transfer',    label: 'Bank Transfer',       icon: <MdAccountBalance size={22} />, desc: 'Transfer to our account, send proof on WhatsApp' },
   { value: 'WhatsApp Order',   label: 'Order via WhatsApp',  icon: <FaWhatsapp size={22} />,       desc: 'Complete your order directly on WhatsApp' },
   { value: 'Cash on Delivery', label: 'Cash on Delivery',    icon: <FaMoneyBillWave size={22} />,  desc: 'Pay when your order arrives — Ebonyi State only', ebonyiOnly: true },
@@ -121,7 +125,7 @@ export default function CheckoutPage() {
     defaultValues: { paymentMethod: 'Bank Transfer' },
   });
 
-  const paymentMethod = watch('paymentMethod');
+  const paymentMethod = watch('paymentMethod') as PaymentMethodExtended;
 
   const handleApplyCoupon = () => {
     if (!couponCode.trim()) return;
@@ -137,8 +141,8 @@ export default function CheckoutPage() {
   const onSubmit = (data: CheckoutFormData) => {
     if (items.length === 0) return;
 
-    const country = countries?.find(c => c.code === data.country);
-    const state = states?.find(s => s.code === data.state);
+    const country = countries?.find((c: import('@/types').Country) => c.code === data.country);
+    const state = states?.find((s: import('@/types').State) => s.code === data.state);
 
     const deliveryNote = deliveryFee != null ? `Delivery fee: ${formatNaira(deliveryFee)}` : '';
     placeOrder({
@@ -157,7 +161,7 @@ export default function CheckoutPage() {
     }, {
       onSuccess: (order) => {
         clearCart();
-        if (data.paymentMethod === 'WhatsApp Order') {
+        if ((data.paymentMethod as PaymentMethodExtended) === 'WhatsApp Order') {
           const msg = `Hello Curvenherbs! I'd like to place an order.\n\nOrder ID: #${order._id}\nItems: ${items.map(i => `${i.product.name} x${i.quantity}`).join(', ')}\nTotal: ${formatNaira(total)}\nDelivery: ${data.address}`;
           window.open(`https://wa.me/2348149838596?text=${encodeURIComponent(msg)}`, '_blank');
         }
@@ -216,6 +220,12 @@ export default function CheckoutPage() {
 
   return (
     <>
+      <SEO
+        title="Checkout"
+        description="Complete your Curvenherbs order. Secure checkout with Bank Transfer, WhatsApp Order, or Cash on Delivery (Ebonyi State)."
+        url="/checkout"
+        noIndex
+      />
       <div style={{ background: 'linear-gradient(135deg, #1B5E20, #2E7D32)', paddingTop: '6.5rem', paddingBottom: '2rem' }}>
         <div className="container-brand">
           <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, color: '#fff' }}>
@@ -257,7 +267,7 @@ export default function CheckoutPage() {
                       onChange={e => { setValue('country', e.target.value); setSelectedCountry(e.target.value); setSelectedState(''); setValue('state', ''); setValue('city', ''); }}
                       style={{ cursor: 'pointer' }}>
                       <option value="">Select country</option>
-                      {countries?.map(c => <option key={c.code} value={c.code}>{c.flag} {c.name}</option>)}
+                      {countries?.map((c: import('@/types').Country) => <option key={c.code} value={c.code}>{c.flag} {c.name}</option>)}
                     </select>
                   </FormField>
                   <FormField label="State / Region *" error={errors.state?.message}>
@@ -266,7 +276,7 @@ export default function CheckoutPage() {
                       onChange={e => { const opt = e.target.options[e.target.selectedIndex]; setValue('state', e.target.value); setSelectedState(e.target.value); setSelectedStateName(opt.text); setValue('city', ''); }}
                       style={{ cursor: selectedCountry ? 'pointer' : 'not-allowed', opacity: selectedCountry ? 1 : 0.6 }}>
                       <option value="">Select state</option>
-                      {states?.map(s => <option key={s.code} value={s.code}>{s.name}</option>)}
+                      {states?.map((s: import('@/types').State) => <option key={s.code} value={s.code}>{s.name}</option>)}
                     </select>
                   </FormField>
                   <FormField label="City" error={errors.city?.message}>
@@ -274,7 +284,7 @@ export default function CheckoutPage() {
                       disabled={!selectedState}
                       style={{ cursor: selectedState ? 'pointer' : 'not-allowed', opacity: selectedState ? 1 : 0.6 }}>
                       <option value="">Select city (optional)</option>
-                      {cities?.map(c => <option key={c.name} value={c.name}>{c.name}</option>)}
+                      {cities?.map((c: import('@/types').City) => <option key={c.name} value={c.name}>{c.name}</option>)}
                     </select>
                   </FormField>
                   <FormField label="Delivery Address *" error={errors.address?.message}>
@@ -469,7 +479,7 @@ export default function CheckoutPage() {
               {/* Place order button */}
               <button type="submit" disabled={placingOrder || paymentMethod === 'Paystack' || (paymentMethod === 'Cash on Delivery' && !isEbonyi)}
                 className="btn-pink" style={{ justifyContent: 'center', padding: '1rem', fontSize: '1rem', width: '100%' }}>
-                {placingOrder ? 'Placing Order...' : paymentMethod === 'WhatsApp Order' ? <><FaWhatsapp size={18} /> Order via WhatsApp</> : <><FaLock size={15} /> Place Order — {formatNaira(total)}{deliveryFee == null ? ' + delivery' : ''}</>}
+                {placingOrder ? 'Placing Order...' : (paymentMethod as PaymentMethodExtended) === 'WhatsApp Order' ? <><FaWhatsapp size={18} /> Order via WhatsApp</> : <><FaLock size={15} /> Place Order — {formatNaira(total)}{deliveryFee == null ? ' + delivery' : ''}</>}
               </button>
 
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem' }}>

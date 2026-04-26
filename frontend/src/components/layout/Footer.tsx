@@ -10,6 +10,7 @@ const QUICK_LINKS = [
   ['Shop', '/shop'],
   ['About Us', '/about'],
   ['Contact', '/contact'],
+  ['Share Your Story', '/testimony'],
   ['Track Order', '/orders/track'],
 ];
 

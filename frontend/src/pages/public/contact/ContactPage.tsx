@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaWhatsapp, FaInstagram, FaTiktok, FaLeaf, FaCheckCircle } from 'react-icons/fa';
+import { FaWhatsapp, FaInstagram, FaTiktok, FaCheckCircle } from 'react-icons/fa';
 import { MdLocationOn, MdPhone, MdEmail } from 'react-icons/md';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { useSendMessage } from '@/hooks/contact/useContact';
 import { contactSchema, type ContactFormData } from '@/lib/schemas';
 import { getWhatsAppOrderLink } from '@/lib/utils';
+import SEO from '@/components/SEO';
 
 const CONTACT_INFO = [
   { icon: <FaWhatsapp size={20} />, label: 'WhatsApp', value: '08149838596', href: 'https://wa.me/2348149838596', color: '#22c55e' },
@@ -44,6 +45,12 @@ export default function ContactPage() {
 
   return (
     <div style={{ background: '#F5F0E8' }}>
+      <SEO
+        title="Contact Us"
+        description="Get in touch with Curvenherbs. Chat on WhatsApp, send us a message, or visit us in Abakaliki, Ebonyi State. We typically respond within a few hours."
+        url="/contact"
+        keywords="contact Curvenherbs, Curvenherbs WhatsApp, herbal products customer service Nigeria"
+      />
 
       {/* ── Hero ── */}
       <div style={{ background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', paddingTop: '8rem', paddingBottom: '4rem' }}>

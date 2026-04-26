@@ -5,6 +5,7 @@ import { FiPackage, FiArrowLeft } from 'react-icons/fi';
 import { MdLocalShipping, MdPayment, MdInventory, MdDoneAll, MdCancel, MdOutlineDeliveryDining } from 'react-icons/md';
 import { useOrderTracking, useOrder, useMarkOrderReceived } from '@/hooks/orders/useOrders';
 import { formatNaira, formatDateTime, getWhatsAppOrderLink, getMainImage } from '@/lib/utils';
+import SEO from '@/components/SEO';
 import type { OrderStatus, OrderTracking } from '@/types';
 
 // ── Status config ─────────────────────────────────────────────────────────────
@@ -30,7 +31,7 @@ export default function OrderTrackingPage() {
 
   const isLoading = loadingTracking || loadingOrder;
   const currentStatus = order?.status;
-  const cfg = currentStatus ? STATUS_CONFIG[currentStatus] : null;
+  const cfg = currentStatus ? STATUS_CONFIG[currentStatus as OrderStatus] : null;
   const isDeliverable = currentStatus === 'Shipped' || currentStatus === 'Out for Delivery';
   const isCancelled = currentStatus === 'Cancelled';
   const isDelivered = currentStatus === 'Delivered';
@@ -50,6 +51,11 @@ export default function OrderTrackingPage() {
 
   return (
     <div style={{ background: '#F5F0E8', paddingTop: '5rem', paddingBottom: '5rem' }}>
+      <SEO
+        title={`Order #${order._id.slice(-8).toUpperCase()} — Tracking`}
+        description={`Track your Curvenherbs order #${order._id.slice(-8).toUpperCase()}. Current status: ${order.status}.`}
+        noIndex
+      />
 
       {/* Hero banner */}
       <div style={{ background: 'linear-gradient(135deg, #1B5E20, #2E7D32)', paddingTop: '3rem', paddingBottom: '3rem', marginTop: '-5rem', paddingLeft: 0, paddingRight: 0 }}>
@@ -204,7 +210,7 @@ export default function OrderTrackingPage() {
                 Order Summary
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.875rem', marginBottom: '1.25rem' }}>
-                {order.items.map((item, i) => {
+                {order.items.map((item: { product: any; quantity: number; priceAtPurchase: number }, i: number) => {
                   const p = item.product as any;
                   const img = p?.images ? getMainImage(p.images) : '/placeholder-product.jpg';
                   return (

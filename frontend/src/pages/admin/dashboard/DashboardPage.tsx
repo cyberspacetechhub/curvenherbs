@@ -11,7 +11,7 @@ import {
   useOverviewStats, useRevenueComparison, useTopProducts,
   useOrdersByStatus, useRevenueChart,
 } from '@/hooks/analytics/useAnalytics';
-import { formatNaira, formatDate, ORDER_STATUS_COLOR } from '@/lib/utils';
+import { formatNaira } from '@/lib/utils';
 
 // ── Stat card ─────────────────────────────────────────────────────────────────
 function StatCard({ label, value, sub, icon, color, href }: {

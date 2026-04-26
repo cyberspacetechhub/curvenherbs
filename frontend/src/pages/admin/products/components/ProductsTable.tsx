@@ -1,6 +1,6 @@
 import { FiSearch, FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
 import { formatNaira, getMainImage } from '@/lib/utils';
-import type { Product, ProductCategory } from '@/types';
+import type { Product } from '@/types';
 
 const CATEGORIES: { label: string; value: string }[] = [
   { label: 'All', value: '' },

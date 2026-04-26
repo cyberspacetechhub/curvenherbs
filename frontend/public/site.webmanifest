@@ -1,0 +1,28 @@
+{
+  "name": "Curvenherbs",
+  "short_name": "Curvenherbs",
+  "description": "100% Natural Herbal Body Enhancement for Women. Bum & Hips Growth, Healthy Weight Gain, Natural Curves — No Side Effects.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F0E8",
+  "theme_color": "#2E7D32",
+  "orientation": "portrait-primary",
+  "lang": "en-NG",
+  "categories": ["health", "shopping", "lifestyle"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "label": "Curvenherbs — Natural Curves. Real Confidence."
+    }
+  ]
+}

@@ -16,8 +16,8 @@ export default function AdminReviewsPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.875rem' }}>
         {[
           { label: 'Pending Approval', value: reviews.length, color: '#f59e0b' },
-          { label: 'With Comments', value: reviews.filter(r => r.comment).length, color: '#2E7D32' },
-          { label: 'Avg Rating', value: reviews.length ? (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1) : '—', color: '#E91E63' },
+          { label: 'With Comments', value: reviews.filter((r: Review) => r.comment).length, color: '#2E7D32' },
+          { label: 'Avg Rating', value: reviews.length ? (reviews.reduce((s: number, r: Review) => s + r.rating, 0) / reviews.length).toFixed(1) : '—', color: '#E91E63' },
         ].map(s => (
           <div key={s.label} style={{ background: '#fff', borderRadius: 12, padding: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
             <p style={{ fontSize: '0.72rem', color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.label}</p>

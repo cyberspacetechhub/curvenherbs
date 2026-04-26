@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiPlus, FiX, FiEye, FiEyeSlash } from 'react-icons/fi';
+import { FiPlus, FiX, FiEye, FiEyeOff } from 'react-icons/fi';
 import { MdAdminPanelSettings, MdToggleOn, MdToggleOff, MdDelete } from 'react-icons/md';
 import { z } from 'zod';
 import { adminApi } from '@/api';
@@ -221,7 +221,7 @@ export default function AdminAdminsPage() {
                       style={{ paddingRight: '2.75rem' }} />
                     <button type="button" onClick={() => setShowPassword(v => !v)}
                       style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', display: 'flex' }}>
-                      {showPassword ? <FiEyeSlash size={15} /> : <FiEye size={15} />}
+                      {showPassword ? <FiEyeOff size={15} /> : <FiEye size={15} />}
                     </button>
                   </div>
                 </Field>

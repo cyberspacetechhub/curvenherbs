@@ -15,7 +15,7 @@ export default function AdminProductsPage() {
   const { mutate: deleteProduct, isPending: deleting } = useDeleteProduct();
 
   const filtered = useMemo(() => {
-    return products.filter(p => {
+    return products.filter((p: Product) => {
       const matchCat = !categoryFilter || p.category === categoryFilter;
       const matchSearch = !search || p.name.toLowerCase().includes(search.toLowerCase()) || p.slug.includes(search.toLowerCase());
       return matchCat && matchSearch;
@@ -38,9 +38,9 @@ export default function AdminProductsPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.875rem' }}>
         {[
           { label: 'Total', value: products.length, color: '#2E7D32' },
-          { label: 'In Stock', value: products.filter(p => p.isInStock).length, color: '#2E7D32' },
-          { label: 'Out of Stock', value: products.filter(p => !p.isInStock).length, color: '#ef4444' },
-          { label: 'In-House', value: products.filter(p => p.isInHouse).length, color: '#8b5cf6' },
+          { label: 'In Stock', value: products.filter((p: Product) => p.isInStock).length, color: '#2E7D32' },
+          { label: 'Out of Stock', value: products.filter((p: Product) => !p.isInStock).length, color: '#ef4444' },
+          { label: 'In-House', value: products.filter((p: Product) => p.isInHouse).length, color: '#8b5cf6' },
         ].map(s => (
           <div key={s.label} style={{ background: '#fff', borderRadius: 12, padding: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
             <p style={{ fontSize: '0.72rem', color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.label}</p>

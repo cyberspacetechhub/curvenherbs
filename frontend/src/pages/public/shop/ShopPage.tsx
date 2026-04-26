@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FiSearch, FiShoppingCart, FiX } from 'react-icons/fi';
 import { FaWhatsapp, FaStar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import AppSwiper from '@/components/ui/AppSwiper';
+import SEO from '@/components/SEO';
 import { useProducts } from '@/hooks/products/useProducts';
 import { useCartStore } from '@/store/cartStore';
 import { formatNaira, getMainImage, getDiscountPercent, getWhatsAppOrderLink } from '@/lib/utils';
@@ -100,7 +100,7 @@ export default function ShopPage() {
 
   const filtered = useMemo(() => {
     if (!products) return [];
-    return products.filter(p => {
+    return products.filter((p: Product) => {
       const matchCat = activeCategory === 'All' || p.category === activeCategory;
       const matchSearch = !search || p.name.toLowerCase().includes(search.toLowerCase()) || p.description.toLowerCase().includes(search.toLowerCase());
       return matchCat && matchSearch;
@@ -109,6 +109,14 @@ export default function ShopPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+      <SEO
+        title="Shop Natural Herbal Products"
+        description="Browse Curvenherbs' full range of 100% natural herbal products for women — Bum & Hips Growth Syrup, Curve Booster Powder, Flat Tummy Mix, Weight Gain Supplements and more. No side effects."
+        url="/shop"
+        keywords="buy herbal products Nigeria, bum growth syrup, hips enlargement herbs, natural weight gain supplement, flat tummy herbs, curve enhancement Nigeria"
+        type="website"
+      />
 
       {/* Page header */}
       <div style={{ background: 'linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%)', paddingTop: '7rem', paddingBottom: '3rem' }}>
@@ -202,7 +210,7 @@ export default function ShopPage() {
             </div>
           ) : (
             <div className="products-grid">
-              {filtered.map(p => <ProductCard key={p._id} product={p} />)}
+              {filtered.map((p: Product) => <ProductCard key={p._id} product={p} />)}
             </div>
           )}
         </div>

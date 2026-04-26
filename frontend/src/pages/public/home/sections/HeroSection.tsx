@@ -1,13 +1,16 @@
 import { motion } from 'framer-motion';
+import type { Transition, TargetAndTransition } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FaWhatsapp, FaLeaf, FaCheckCircle, FaMapMarkerAlt, FaClock, FaUsers, FaStar } from 'react-icons/fa';
 import { FiArrowRight, FiTrendingUp } from 'react-icons/fi';
 import { getWhatsAppOrderLink } from '@/lib/utils';
 
-const fadeUp = (delay = 0) => ({
+type FadeUpProps = { initial: TargetAndTransition; animate: TargetAndTransition; transition: Transition };
+
+const fadeUp = (delay = 0): FadeUpProps => ({
   initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.7, delay, ease: 'easeOut' },
+  transition: { duration: 0.7, delay, ease: 'easeOut' as const },
 });
 
 const TRUST_BADGES = [

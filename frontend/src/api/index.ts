@@ -2,8 +2,8 @@ import api from './axios';
 import type {
   LoginPayload, RegisterPayload, UpdateProfilePayload, ChangePasswordPayload,
   ProductFilters, PlaceOrderPayload, UpdateOrderStatusPayload,
-  ReviewPayload, TestimonyPayload, ContactPayload,
-  CouponValidatePayload, AdminPayload, UpdateAdminPayload
+  ReviewPayload, ContactPayload,
+  CouponValidatePayload, CouponPayload, AdminPayload, UpdateAdminPayload
 } from '@/types';
 
 // ─── Auth ────────────────────────────────────────────────────────────────────
@@ -106,6 +106,15 @@ export const uploadApi = {
     return api.post(`/upload${folder ? `?folder=${folder}` : ''}`, form, { headers: { 'Content-Type': 'multipart/form-data' } });
   },
   delete: (publicId: string) => api.delete('/upload', { data: { publicId } }),
+};
+
+// ─── Coupons (Admin) ───────────────────────────────────────────────────────────────────
+export const couponApi = {
+  getAll: () => api.get('/coupons'),
+  create: (data: CouponPayload) => api.post('/coupons', data),
+  update: (id: string, data: Partial<CouponPayload>) => api.put(`/coupons/${id}`, data),
+  toggle: (id: string) => api.patch(`/coupons/${id}/toggle`),
+  delete: (id: string) => api.delete(`/coupons/${id}`),
 };
 
 // ─── Admins (Superadmin) ─────────────────────────────────────────────────────

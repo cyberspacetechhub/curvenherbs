@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX, FiMessageCircle } from 'react-icons/fi';
+import { FiX } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useUpdateOrderStatus } from '@/hooks/orders/useOrders';
-import { formatNaira, formatDateTime, getWhatsAppOrderLink } from '@/lib/utils';
+import { formatNaira, formatDateTime } from '@/lib/utils';
 import OrderStatusBadge from './OrderStatusBadge';
 import type { Order, OrderStatus } from '@/types';
 

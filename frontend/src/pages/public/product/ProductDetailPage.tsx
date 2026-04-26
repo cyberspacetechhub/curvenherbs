@@ -7,7 +7,8 @@ import { useProduct } from '@/hooks/products/useProducts';
 import { useProductReviews, useAddReview } from '@/hooks/reviews/useReviews';
 import { useCartStore } from '@/store/cartStore';
 import { formatNaira, getDiscountPercent, getWhatsAppOrderLink, formatDate } from '@/lib/utils';
-import type { ReviewPayload } from '@/types';
+import SEO from '@/components/SEO';
+import type { ProductImage, ProductIngredient, ReviewPayload } from '@/types';
 
 export default function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -49,10 +50,35 @@ export default function ProductDetailPage() {
   const discount = product.discountedPrice ? getDiscountPercent(product.price, product.discountedPrice) : 0;
   const mainImages = product.images.length ? product.images : [{ url: '/placeholder-product.jpg', alt: product.name, isMain: true }];
 
+  const productStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: mainImages[0]?.url,
+    brand: { '@type': 'Brand', name: 'Curvenherbs' },
+    offers: {
+      '@type': 'Offer',
+      price: displayPrice,
+      priceCurrency: 'NGN',
+      availability: product.isInStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      url: `https://curvenherbs.com/shop/${product.slug}`,
+    },
+    ...(product.reviewCount > 0 && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: product.rating.toFixed(1),
+        reviewCount: product.reviewCount,
+        bestRating: '5',
+        worstRating: '1',
+      },
+    }),
+  };
+
   const sections = [
     { key: 'benefits', label: 'Key Benefits', content: (
       <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
-        {product.keyBenefits.map((b, i) => (
+        {product.keyBenefits.map((b: string, i: number) => (
           <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.625rem' }}>
             <span style={{ marginTop: 2, width: 20, height: 20, borderRadius: '50%', background: '#2E7D32', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <span style={{ color: '#fff', fontSize: '0.65rem' }}>✓</span>
@@ -64,7 +90,7 @@ export default function ProductDetailPage() {
     )},
     { key: 'ingredients', label: 'Natural Ingredients', content: (
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-        {product.ingredients.map((ing, i) => (
+        {product.ingredients.map((ing: ProductIngredient, i: number) => (
           <span key={i} style={{ background: '#F5F0E8', border: '1px solid #EDE7D9', padding: '0.375rem 0.875rem', borderRadius: 9999, fontSize: '0.8rem', color: '#374151' }}>
             🌿 {ing.name}
           </span>
@@ -81,6 +107,15 @@ export default function ProductDetailPage() {
 
   return (
     <div style={{ background: '#F5F0E8' }}>
+      <SEO
+        title={product.name}
+        description={`${product.description} — ${product.keyBenefits.slice(0, 3).join(', ')}. Buy now from Curvenherbs, Nigeria's trusted herbal brand.`}
+        image={mainImages[0]?.url}
+        url={`/shop/${product.slug}`}
+        type="product"
+        keywords={`${product.name}, ${product.category}, herbal ${product.category.toLowerCase()} Nigeria, buy ${product.name.toLowerCase()}, Curvenherbs`}
+        structuredData={productStructuredData}
+      />
       <div style={{ paddingTop: '5rem' }}>
         {/* Breadcrumb */}
         <div className="container-brand" style={{ paddingTop: '1.5rem', paddingBottom: '0.5rem' }}>
@@ -121,7 +156,7 @@ export default function ProductDetailPage() {
 
               {mainImages.length > 1 && (
                 <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(mainImages.length, 4)}, 1fr)`, gap: '0.75rem', marginTop: '0.875rem' }}>
-                  {mainImages.map((img, i) => (
+                  {mainImages.map((img: ProductImage, i: number) => (
                     <button key={i} onClick={() => setSelectedImage(i)}
                       style={{ aspectRatio: '1/1', borderRadius: 14, overflow: 'hidden', border: `2px solid ${selectedImage === i ? '#E91E63' : 'transparent'}`, cursor: 'pointer', padding: 0, transform: selectedImage === i ? 'scale(1.04)' : 'scale(1)', transition: 'all 0.2s' }}>
                       <img src={img.url} alt={img.alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -311,7 +346,7 @@ export default function ProductDetailPage() {
               </div>
             ) : (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
-                {reviews.map(review => (
+                {reviews.map((review: import('@/types').Review) => (
                   <div key={review._id} style={{ background: '#fff', borderRadius: 20, padding: '1.5rem', boxShadow: '0 2px 16px rgba(0,0,0,0.06)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
                       <div style={{ display: 'flex', gap: 2 }}>

@@ -109,6 +109,32 @@ export interface UpdateOrderStatusPayload { status: OrderStatus; note?: string; 
 export interface CouponValidatePayload { code: string; totalAmount: number; }
 export interface CouponValidateResult { discount: number; couponId: string; }
 
+// ─── Coupon ───────────────────────────────────────────────────────────────────
+export type CouponType = 'percentage' | 'fixed';
+
+export interface Coupon {
+  _id: string;
+  code: string;
+  type: CouponType;
+  value: number;
+  minOrderAmount?: number;
+  maxUses?: number;
+  usedCount: number;
+  expiresAt?: string;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface CouponPayload {
+  code: string;
+  type: CouponType;
+  value: number;
+  minOrderAmount?: number;
+  maxUses?: number;
+  expiresAt?: string;
+  isActive?: boolean;
+}
+
 // ─── Order Tracking ──────────────────────────────────────────────────────────
 export interface OrderTracking {
   _id: string;

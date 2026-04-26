@@ -131,11 +131,11 @@ export default function BestSellersSection() {
         ) : (
           <>
             <div className="hide-mobile-grid grid-4">
-              {products?.map((p, i) => <ProductCard key={p._id} product={p} index={i} />)}
+              {products?.map((p: Product, i: number) => <ProductCard key={p._id} product={p} index={i} />)}
             </div>
             <div className="show-mobile">
               <AppSwiper
-                items={(products ?? []).map((p, i) => <ProductCard key={p._id} product={p} index={i} />)}
+                items={(products ?? []).map((p: Product, i: number) => <ProductCard key={p._id} product={p} index={i} />)}
                 slidesPerView={1.15} spaceBetween={14} showPagination className="pb-10" />
             </div>
           </>
