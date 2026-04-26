@@ -35,6 +35,7 @@ export const orderApi = {
   place: (data: PlaceOrderPayload) => api.post('/orders', data),
   validateCoupon: (data: CouponValidatePayload) => api.post('/orders/validate-coupon', data),
   getTracking: (id: string) => api.get(`/orders/${id}/tracking`),
+  getPublic: (id: string) => api.get(`/orders/${id}/public`),
   markReceived: (id: string) => api.patch(`/orders/${id}/mark-received`),
   // Admin
   getAll: (filters?: { status?: string }) => api.get('/orders', { params: filters }),

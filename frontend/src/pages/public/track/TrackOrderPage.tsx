@@ -3,7 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaWhatsapp, FaLeaf, FaCheckCircle, FaBoxOpen } from 'react-icons/fa';
 import { FiSearch, FiArrowLeft } from 'react-icons/fi';
-import { useOrderTracking, useOrder, useMarkOrderReceived } from '@/hooks/orders/useOrders';
+import { useOrderTracking, usePublicOrder, useMarkOrderReceived } from '@/hooks/orders/useOrders';
 import { formatNaira, formatDateTime, getWhatsAppOrderLink, getMainImage } from '@/lib/utils';
 import type { OrderStatus } from '@/types';
 import SEO from '@/components/SEO';
@@ -31,7 +31,7 @@ export default function TrackOrderPage() {
 
   // If we have an id in the URL, fetch the order
   const { data: tracking = [], isLoading: loadingTracking } = useOrderTracking(id!);
-  const { data: order, isLoading: loadingOrder } = useOrder(id!);
+  const { data: order, isLoading: loadingOrder } = usePublicOrder(id!);
   const { mutate: markReceived, isPending: marking, isSuccess: marked } = useMarkOrderReceived();
 
   const isLoading = loadingTracking || loadingOrder;

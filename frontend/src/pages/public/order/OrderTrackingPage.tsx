@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FaWhatsapp, FaLeaf, FaCheckCircle } from 'react-icons/fa';
 import { FiPackage, FiArrowLeft } from 'react-icons/fi';
 import { MdLocalShipping, MdPayment, MdInventory, MdDoneAll, MdCancel, MdOutlineDeliveryDining } from 'react-icons/md';
-import { useOrderTracking, useOrder, useMarkOrderReceived } from '@/hooks/orders/useOrders';
+import { useOrderTracking, usePublicOrder, useMarkOrderReceived } from '@/hooks/orders/useOrders';
 import { formatNaira, formatDateTime, getWhatsAppOrderLink, getMainImage } from '@/lib/utils';
 import SEO from '@/components/SEO';
 import type { OrderStatus, OrderTracking } from '@/types';
@@ -26,7 +26,7 @@ const STATUS_ORDER: OrderStatus[] = [
 export default function OrderTrackingPage() {
   const { id } = useParams<{ id: string }>();
   const { data: tracking = [], isLoading: loadingTracking } = useOrderTracking(id!);
-  const { data: order, isLoading: loadingOrder } = useOrder(id!);
+  const { data: order, isLoading: loadingOrder } = usePublicOrder(id!);
   const { mutate: markReceived, isPending: marking, isSuccess: marked } = useMarkOrderReceived();
 
   const isLoading = loadingTracking || loadingOrder;

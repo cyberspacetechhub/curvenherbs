@@ -27,6 +27,15 @@ export const useOrderTracking = (id: string) =>
     enabled: !!id,
   });
 
+// Public order detail — uses the tracking endpoint which is publicly accessible
+export const usePublicOrder = (id: string) =>
+  useQuery({
+    queryKey: [...ORDER_KEYS.detail(id), 'public'],
+    queryFn: () => orderApi.getPublic(id).then(r => r.data.data),
+    enabled: !!id,
+    retry: false,
+  });
+
 export const useMarkOrderReceived = () => {
   const qc = useQueryClient();
   return useMutation({

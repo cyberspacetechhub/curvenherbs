@@ -16,11 +16,15 @@ api.interceptors.request.use((config) => {
 });
 
 // On 401/403 — try refresh, then retry original request
+const PUBLIC_PATHS = ['/orders/', '/products', '/testimonies', '/reviews', '/newsletter', '/contact', '/locations'];
+
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const original = error.config;
-    if (error.response?.status === 401 && !original._retry) {
+    const isPublicPath = PUBLIC_PATHS.some(path => original.url?.includes(path));
+
+    if (error.response?.status === 401 && !original._retry && !isPublicPath) {
       original._retry = true;
       try {
         const { data } = await axios.get(`${BASE_URL}/auth/refresh`, { withCredentials: true });
