@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PublicLayout from '@/components/layout/PublicLayout';
 import AdminLayout from '@/components/layout/AdminLayout';
+import PageLoader from '@/components/PageLoader';
 import { Routes, Route, Outlet } from 'react-router-dom';
 
 // ── Public Pages ──────────────────────────────────────────────────────────────
@@ -29,12 +30,6 @@ const AdminNewsletterPage  = lazy(() => import('@/pages/admin/newsletter'));
 const AdminMessagesPage    = lazy(() => import('@/pages/admin/messages'));
 const AdminAdminsPage      = lazy(() => import('@/pages/admin/admins'));
 const AdminCouponsPage     = lazy(() => import('@/pages/admin/coupons'));
-
-const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-cream">
-    <div className="w-10 h-10 rounded-full border-4 border-brand-green border-t-transparent animate-spin" />
-  </div>
-);
 
 function ScrollRestoration() {
   const location = useLocation();
